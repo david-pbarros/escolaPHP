@@ -33,7 +33,7 @@
         	iniciaTransacao($params['hash']);
                 
                 try {
-                        $results = queryListResult('SELECT nrestudo, demonstracao, descricao, discurso, leitura FROM estudo WHERE dataexclusao IS NULL AND dtultimaatualiza > :data', array("data"=>getFormatedDate($params['data_ultima'])));
+                        $results = queryListResult('SELECT nrestudo, demonstracao, descricao, discurso, leitura FROM estudo WHERE dataexclusao IS NULL AND dtultimaatualiza > :data', array("data"=>getFormatedDateTime($params['data_ultima'])));
 			
 			$response = '{"response" : "OK", "itens" : [';
 			

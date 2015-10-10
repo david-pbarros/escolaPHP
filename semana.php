@@ -49,7 +49,7 @@
 		iniciaTransacao($params['hash']);
 		
 		try {
-			$results = queryListResult('SELECT id, assebleia, data, recapitulacao, semreuniao, visita, mes_id FROM semanadesignacao WHERE dtultimaatualiza > :data', array("data"=>getFormatedDate($params['data_ultima'])));
+			$results = queryListResult('SELECT id, assebleia, data, recapitulacao, semreuniao, visita, mes_id FROM semanadesignacao WHERE dtultimaatualiza > :data', array("data"=>getFormatedDateTime($params['data_ultima'])));
 			
 			$response = '{"response" : "OK", "itens" : [';
 			

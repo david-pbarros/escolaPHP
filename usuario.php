@@ -52,7 +52,7 @@
 		$nome = "";
 		
 		try {
-			$results = queryListResult('SELECT id, senha, nome, reiniciaSenha, bloqueado, profile_id FROM usuario WHERE dataexclusao IS NULL AND (dtultimaatualiza > :data OR dtultimaatualiza IS NULL)', array("data"=>getFormatedDate($params['data_ultima'])));
+			$results = queryListResult('SELECT id, senha, nome, reiniciaSenha, bloqueado, profile_id FROM usuario WHERE dataexclusao IS NULL AND (dtultimaatualiza > :data OR dtultimaatualiza IS NULL)', array("data"=>getFormatedDateTime($params['data_ultima'])));
 			
 			$response = '{"response" : "OK", "itens" : [';
 			

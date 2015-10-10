@@ -71,7 +71,7 @@
 		
 		try {
 			$results = queryListResult('SELECT id, data, fonte, numero, obsfolha, observacao, sala, status, tema, ajudante_id, semana_id, estudante_id, e.estudo_id FROM designacao d '
-										.'LEFT JOIN designacao_estudo e ON e.designacao_id = d.id WHERE dataexclusao IS NULL AND dtultimaatualiza > :data', array("data"=>getFormatedDate($params['data_ultima'])));
+										.'LEFT JOIN designacao_estudo e ON e.designacao_id = d.id WHERE dataexclusao IS NULL AND dtultimaatualiza > :data', array("data"=>getFormatedDateTime($params['data_ultima'])));
 			
 			$response = '{"response" : "OK", "itens" : [';
 			

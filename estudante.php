@@ -65,7 +65,7 @@
 		$nome = "";
 		
 		try {
-			$results = queryListResult('SELECT id, desabilitado, genero, naoajudante, nome, observacao, salaultimadesignacao, ultimadesignacao FROM estudante WHERE dataexclusao IS NULL AND dtultimaatualiza > :data', array("data"=>getFormatedDate($params['data_ultima'])));
+			$results = queryListResult('SELECT id, desabilitado, genero, naoajudante, nome, observacao, salaultimadesignacao, ultimadesignacao FROM estudante WHERE dataexclusao IS NULL AND dtultimaatualiza > :data', array("data"=>getFormatedDateTime($params['data_ultima'])));
 			
 			$response = '{"response" : "OK", "itens" : [';
 			
@@ -79,7 +79,7 @@
 						if ($key == 'ultimadesignacao') {
 							if ($val != NULL) {
 								$val = strtotime($val );
-								$val   = '"' .date('d/m/Y H:i:s',$val) .'"';
+								$val   = '"' .date('d/m/Y',$val) .'"';
 							
 							} else {
 								$val = '""';

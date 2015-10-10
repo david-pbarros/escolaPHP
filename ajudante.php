@@ -62,7 +62,7 @@
 		$nome = "";
 		
 		try {
-			$results = queryListResult('SELECT id, genero, nome, ultimadesignacao FROM ajudante WHERE dataexclusao IS NULL AND dtultimaatualiza > :data', array("data"=>getFormatedDate($params['data_ultima'])));
+			$results = queryListResult('SELECT id, genero, nome, ultimadesignacao FROM ajudante WHERE dataexclusao IS NULL AND dtultimaatualiza > :data', array("data"=>getFormatedDateTime($params['data_ultima'])));
 			
 			$response = '{"response" : "OK", "itens" : [';
 			

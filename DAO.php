@@ -12,6 +12,7 @@
                        
                        } else {
                                 $dbh = new PDO('mysql:host=fdb3.awardspace.net;dbname=1912816_'.$dbName .';charset=utf8', '1912816_'.$dbName, 'escola'.$dbName, array(PDO::ATTR_PERSISTENT=>true));
+								//$dbh = new PDO('mysql:host=localhost;dbname=escola_48496', 'root');
                         }    
                 } catch (PDOException $e) {
                         $app->halt(400, 'Erro ao conectar ao banco de dados' .' Mensagem: ' .$e->getMessage());
@@ -62,9 +63,15 @@
 		return $tabela .'_' .$seq;
 	}
 	
-	function getFormatedDate($dataParam) {
+	function getFormatedDateTime($dataParam) {
 		$d = date_create_from_format('d/m/Y H:i:s', $dataParam);
 				
 		return $d->format('Y-m-d H:i:s');
+	}
+	
+	function getFormatedDate($dataParam) {
+		$d = date_create_from_format('d/m/Y', $dataParam);
+				
+		return $d->format('Y-m-d');
 	}
 ?>
