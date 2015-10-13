@@ -41,12 +41,10 @@
 				$response = $response .'{';
 
 				foreach($result as $key=>$val) {
-					if (!is_numeric ( $key )) {
-						$response = $response .$key .' : "' .str_replace(" ","%20",$val) .'", ';
+					//if (!is_numeric ( $key )) {
+						$response = $response .$key .' : "' .urlencode($val) .'", ';
 					
-					} else if ($key == 'descricao' ) {
-						$response = $response .$key .' : ' .urlencode($val) .', ';
-					}
+					//}
 				}
 				
 				$response = rtrim($response, ", ") .'},';
