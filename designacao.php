@@ -92,13 +92,13 @@
 							$val = '""';
                                                         
 						} else if ($key == 'fonte' || $key == 'tema' || $key == 'obsfolha' || $key == 'observacao') {
-                                                        if ($val == '' || $val == NULL || $val == 'null') {
-                                                                $val = '""';
-                                                        
-                                                        } else {
-                                                                $val = '"' .$val .'"';
-                                                        }
-                                                }
+								if ($val == '' || $val == NULL || $val == 'null') {
+										$val = '""';
+								
+								} else {
+										$val = '"' .urlencode($val) .'"';
+								}
+						}
 						
 						$response = $response .'"' .$key .'" : ' .$val .', ';
 					}

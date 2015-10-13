@@ -81,6 +81,8 @@
 							} else {
 								$val = '""';
 							}
+						} else if ($key == 'nome' ) {
+							$val = urlencode($val);
 						}
 						
 						$response = $response .'"' .$key .'" : ' .$val .', ';

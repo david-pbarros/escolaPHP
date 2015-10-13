@@ -43,6 +43,9 @@
 				foreach($result as $key=>$val) {
 					if (!is_numeric ( $key )) {
 						$response = $response .$key .' : "' .str_replace(" ","%20",$val) .'", ';
+					
+					} else if ($key == 'descricao' ) {
+						$response = $response .$key .' : ' .urlencode($val) .', ';
 					}
 				}
 				

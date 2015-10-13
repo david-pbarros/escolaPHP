@@ -62,7 +62,10 @@
 					if (!is_numeric ( $key )) {
 						if ($key == 'senha') {
 							$val = '"' .$val .'"';
-						} 
+							
+						} else if ($key == 'nome' ) {
+							$val = urlencode($val);
+						}
 						
 						$response = $response .'"' .$key .'" : ' .$val .', ';
 					}

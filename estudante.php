@@ -87,6 +87,8 @@
 						} else if ($key == 'salaultimadesignacao' &&  $val == NULL) {
 							$val = '""';
 						
+						} else if ($key == 'nome' ) {
+							$val = urlencode($val);
 						}
 						
 						$response = $response .'"' .$key .'" : ' .$val .', ';
