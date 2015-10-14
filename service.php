@@ -1,6 +1,8 @@
 <?php header ('Content-type: text/html; charset=UTF-8'); 
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL | E_STRICT);
+	
+	date_default_timezone_set('America/Sao_Paulo');
 
 	require_once 'Slim/Slim.php';
 	require_once 'DAO.php';
