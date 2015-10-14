@@ -39,6 +39,26 @@
                                                 .'de \'Estudos\', \'Ajudantes\' e \'Estudantes\'."}';
 	});
 	
+	$app->get('/lastSinc', function() {
+		global $app;
+		iniciaTransacaoNaoSegura($app->request()->params('hash'));
+		
+		$result = querySingleResult("SELECT count(*) qtd FROM sincronismo WHERE situacao = 'C'", null);
+		
+		if(!empty($result) && $result->qtd > 0) {
+			$result = querySingleResult("SELECT MAX(data) data FROM sincronismo WHERE situacao = 'C'", null);
+			
+			if(!empty($result)) {
+				$val = strtotime($result->data);
+				$val   = '"' .date('d/m/Y H:i:s',$val) .'"';
+
+				echo '{"response" : "existente", "data" : ' .$val .'}';
+			}
+		} else {
+			echo '{"response" : "inexistente"}';
+		}
+	});
+	
 	//funcoes para o mes
 	$app->get('/mes', function() {
 		global $app;
@@ -241,6 +261,11 @@
 	$app->delete('/designacao', function() {
 		global $app;
 		designacao_remove($app->request()->params());
+	});
+	
+	$app->post('/pass', function() {
+		global $app;
+		trocaSenha($app->request()->params());
 	});
 	
 	$app->run();
