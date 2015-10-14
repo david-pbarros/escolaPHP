@@ -16,9 +16,9 @@
 				echo '{"response" : "existente", "id_online" : ' .$result->id .'}';
 			
 			} else {
-				$queryParam = array("id"=>obtemSequence('mesdesignacao'), "dtultimaatualiza"=>date('Y-m-d H:i:s'), "ano"=>$params['ano'], "mes"=>$params['mes'], "status"=>$params['status']);
+				$queryParam = array("id"=>obtemSequence('mesdesignacao'), "dtultimaatualiza"=>date('Y-m-d H:i:s'), "ano"=>$params['ano'], "mes"=>$params['mes'], "status"=>$params['status'], "melhoreministerio"=>$params['melhoreministerio']);
 			
-				createQuery('INSERT INTO mesdesignacao(id, ano, dtultimaatualiza, mes, status) VALUES (:id, :ano, :dtultimaatualiza, :mes, :status)', $queryParam);
+				createQuery('INSERT INTO mesdesignacao(id, ano, dtultimaatualiza, mes, status, melhoreministerio) VALUES (:id, :ano, :dtultimaatualiza, :mes, :status, :melhoreministerio)', $queryParam);
 				
 				$result = obtemIdMes($params);
 				
@@ -47,12 +47,26 @@
 		iniciaTransacao($params['hash']);
 		
 		try {
-			$results = queryListResult('SELECT id, ano, mes, status FROM mesdesignacao WHERE dtultimaatualiza > :data', array("data"=>getFormatedDateTime($params['data_ultima'])));
+			$results = queryListResult('SELECT id, ano, mes, status, melhoreministerio FROM mesdesignacao WHERE dtultimaatualiza > :data', array("data"=>getFormatedDateTime($params['data_ultima'])));
 			
 			$response = '{"response" : "OK", "itens" : [';
 			
 			foreach($results as $result) {
-				$response = $response .'{"id" : '.$result['id'] .', "ano" : ' .$result['ano'] .', "mes" : ' .$result['mes']  .', "status" : ' .$result['status'] .'},';
+				//$response = $response .'{"id" : '.$result['id'] .', "ano" : ' .$result['ano'] .', "mes" : ' .$result['mes']  .', "status" : ' .$result['status'] .', "melhoreministerio" : "' .$result['melhoreministerio'] .'"},';
+			
+				$response = $response .'{';
+				
+				foreach($result as $key=>$val) {
+					if (!is_numeric ( $key )) {
+						if ($key == 'melhoreministerio' && ($val == null || $val == '')) {
+							$val = 0;
+						}
+					
+						$response = $response .'"' .$key .'" : ' .$val .', ';
+					}
+				}
+			
+				$response = rtrim($response, ", ") .'},';
 			}
 			
 			echo rtrim($response, ",") .']}';
