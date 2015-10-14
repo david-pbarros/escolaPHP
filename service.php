@@ -59,6 +59,17 @@
 		}
 	});
 	
+	$app->post('/lastSinc', function() {
+		global $app;
+		global $pieces;
+		
+		iniciaTransacao($app->request()->params('hash'));
+		
+		$queryParam = array("data"=>date('Y-m-d H:i:s'), "usuario"=>$pieces[1], "situacao"=>$app->request()->params('status'));
+			
+		createQuery('INSERT INTO sincronismo(data, usuario, situacao) VALUES (:data, :usuario, :situacao)', $queryParam);
+	});
+	
 	//funcoes para o mes
 	$app->get('/mes', function() {
 		global $app;
