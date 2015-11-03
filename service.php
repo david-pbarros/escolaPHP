@@ -21,12 +21,24 @@
 	
 	$app = new \Slim\Slim();
 	
+	$version = 400;
+	$msgVersion = 'Acesse: http://escolaministerio.jwdbcorp.dx.am/download.php e clique no link Atualização'
+				.'\nPrincipais alterações da versão:\n'
+				.'- Aviso de sincronismo somente quando existirem alterações;\n'
+				.'- Preparação de telas para Melhore seu ministério;\n'
+				.'- Preparação das impressões para Melhore seu ministério;\n'
+				.'- Possibilidade de edição no nome dos estudantes;\n'
+				.'- Ajuste de bug na edição de ajudantes e estudantes;\n'
+				.'- Sincronismo melhorado.';
+	
 	$app->get('/', function () {
 		echo "Escola WebService Host.";
 	});
 	
 	$app->post('/logon', function() {
 		global $app;
+		global $version;
+		global $msgVersion;
 		
 		iniciaTransacao($app->request()->params('hash'));
 		echo '{"response" : "OK"}';
@@ -36,9 +48,7 @@
 		global $app;
 		
 		iniciaTransacao($app->request()->params('hash'));
-		echo '{"versao" : 400, "msg" : "Acesse: http://escolaministerio.jwdbcorp.dx.am/download.php e clique no link Atualização'
-                                                .'\nPrincipais alterações da versão:\n- Deleção mantendo histórico '
-                                                .'de \'Estudos\', \'Ajudantes\' e \'Estudantes\'."}';
+		echo '{"versao" : ' .$version .', "msg" : "' .$msgVersion .'"}';
 	});
 	
 	$app->get('/lastSinc', function() {

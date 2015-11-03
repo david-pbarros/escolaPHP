@@ -24,6 +24,7 @@
 	function iniciaTransacaoNaoSegura($hash) {
 		global $app;
 		global $pieces;
+		global $msgVersion;
 		
 		$deCipherText = decript($hash);
 		
@@ -34,7 +35,7 @@
 		createConnection($pieces[0]);
 		
 		if ($pieces[3] < 400) {
-			echo '{"response" : "ERRO", "mensagem" : "Versão do software inválida. Atualizar para a versão mais recente"}';
+			echo '{"response" : "ERRO", "mensagem" : "Versão do software inválida. Atualizar para a versão mais recente\nInformação:\n' .$msgVersion .'"}';
 			return false;
 		}
 		
