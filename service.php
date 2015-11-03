@@ -36,7 +36,7 @@
 		global $app;
 		
 		iniciaTransacao($app->request()->params('hash'));
-		echo '{"versao" : 303, "msg" : "Acesse: http://escolaministerio.jwdbcorp.dx.am/download.php e clique no link Atualização'
+		echo '{"versao" : 400, "msg" : "Acesse: http://escolaministerio.jwdbcorp.dx.am/download.php e clique no link Atualização'
                                                 .'\nPrincipais alterações da versão:\n- Deleção mantendo histórico '
                                                 .'de \'Estudos\', \'Ajudantes\' e \'Estudantes\'."}';
 	});

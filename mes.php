@@ -52,8 +52,6 @@
 			$response = '{"response" : "OK", "itens" : [';
 			
 			foreach($results as $result) {
-				//$response = $response .'{"id" : '.$result['id'] .', "ano" : ' .$result['ano'] .', "mes" : ' .$result['mes']  .', "status" : ' .$result['status'] .', "melhoreministerio" : "' .$result['melhoreministerio'] .'"},';
-			
 				$response = $response .'{';
 				
 				foreach($result as $key=>$val) {

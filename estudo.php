@@ -41,10 +41,7 @@
 				$response = $response .'{';
 
 				foreach($result as $key=>$val) {
-					//if (!is_numeric ( $key )) {
-						$response = $response .$key .' : "' .urlencode($val) .'", ';
-					
-					//}
+					$response = $response .$key .' : "' .urlencode($val) .'", ';
 				}
 				
 				$response = rtrim($response, ", ") .'},';
