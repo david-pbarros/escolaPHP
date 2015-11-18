@@ -47,15 +47,6 @@
 		echo '{"response" : "OK"}';
 	});
 	
-	$app->post('/mobile/logon', function() {
-		global $app;
-		global $version;
-		global $msgVersion;
-				
-		iniciaTransacaoMobile($app->request()->params('hash'));
-		echo '{"response" : "OK"}';
-	});
-	
 	$app->get('/versao', function() {
 		global $app;
 		
@@ -301,6 +292,31 @@
 	$app->post('/pass', function() {
 		global $app;
 		trocaSenha($app->request()->params());
+	});
+	
+	//funcoes para mobile
+	$app->post('/mobile/logon', function() {
+		global $app;
+		global $version;
+		global $msgVersion;
+				
+		iniciaTransacaoMobile($app->request()->params('hash'));
+		echo '{"response" : "OK"}';
+	});
+	
+	$app->get('/mobile/estudo', function() {
+		global $app;
+		mobile_estudo_list($app->request()->params());
+	});
+	
+	$app->get('/mobile/designacao', function() {
+		global $app;
+		mobile_designacao_list($app->request()->params());
+	});
+	
+	$app->get('/mobile/usuarios', function() {
+		global $app;
+		usuario($app->request()->params());
 	});
 	
 	$app->run();
