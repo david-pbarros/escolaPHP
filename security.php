@@ -5,6 +5,7 @@
 	require_once 'Crypt/RSA.php';
 	
 	$pieces;
+	$isMobile = FALSE;
 	
 	function decript($hash) {
 		$encPpKey = 'LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQ0KTUlJQ1hRSUJBQUtCZ1FDM3BtVU1VUS80NG83eHZMMkhSaFZQLzJxVkEvTkRCRGZGdENrbFJldU1iTGNRa1k1Ug0KVWpTTkloUFl2UWk3dXd0bnY1R1ZnVForUGt5TnlSZ092dS9MaWErK24yeFJLMDhma05xdkxNR2trZFg0VWo5Qw0KRXlTaGw0QUZFdkJ5WkNOMWI5TnZwZVZXMnl2Zjl5SXV5dW1SNXZKOGxMbXVPSXZQZmpHTkkvUkJQd0lEQVFBQg0KQW9HQWYzaUdjTnNmUEFCOWVYc3BEbWp0eUI0Z0s1aVhVKy9zaWxTM3JvQnVzNFNPT0hqZmtNQi9hMnE0M2Rxdg0KNGlZOUQyRWZ1dWI2SFB3L0JMY005TWRCQnhiZDZQZ2ZUd2NCY1c4aElPOWxBVW5STjlHWlNaVEFpUTBlUTNEcg0KTUd6WmpKL2o1U1dKVWZubDdiaiswVE9EN1MxY3FnNzEwYlFab3FSWWlOMjZMTmtDUVFEcmZSaHQyeHFVKzd2NQ0KcHNmRlJ0MEFZY0lmRmJpTmJZSFF5d1Y0bGNPUXRKTldmcUVxRHJhN1VxWmdEd3JHZHNub05YYlR0N2I2M0N4Ng0KN3hwMzBsYnJBa0VBeDZWbnZoTEV1YUdwcHhlaFBCUXdFS0JyYkNBbUxQdHd0MXBReklLN3lyL3JmcXE5Nnp5Yg0Kd0J3c3MvczlGTmpNQVlxNExBOGk5cG1xNUVSQ1JieFIvUUpCQU11K0dlckNUUWRsbmNkc0V4K09KaHYwZUwzbw0KVHhxZUNsa1pyb3djRjI0VnJmeUI1dks2ZEVNeVNSeUhKeTE3RFVuSktCd1pzVWp1UWRYREZjVmh5UzBDUUdObA0KNmFuTGhHQjdxWkRFaGdUNGRCbkRGTmluaFBvK1VaY29BelJmSG9wS1ZVQWlXQjRuZGRBRzl3YkEzbDlqdE9aTA0KbjNob0xOc2tGTjVEVWMrUWZDMENRUUNuL2RHd091clJqdkVHV0Y3dE1qR2lRQ3Iwa3BOeUJjZlVzZ3pFc2ZaNA0KbmNWTFEwekxYcWhvNzBPTFFKMmpBbTVEMTV1R0kzbU1vekVPeGJEbzEzbFQNCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0t';
@@ -25,6 +26,9 @@
 		global $app;
 		global $pieces;
 		global $msgVersion;
+		global $version;
+		global $mobileVersion;
+		global $isMobile;
 		
 		$deCipherText = decript($hash);
 		
@@ -34,14 +38,15 @@
 		
 		createConnection($pieces[0]);
 		
-		if ($pieces[3] < 400) {
+		$vers = $isMobile ? $mobileVersion : $version;
+		
+		if ($pieces[3] < $vers) {
 			echo '{"response" : "ERRO", "mensagem" : "Versão do software inválida. Atualizar para a versão mais recente\nInformação:\n' .$msgVersion .'"}';
 			return false;
 		}
 		
 		return true;
 	}
-	
 	
 	function iniciaTransacao($hash) {
 		global $app;
@@ -54,6 +59,13 @@
 				$app->halt(401, 'Erro na autenticação!');
 			}
 		}
+	}
+	
+	function iniciaTransacaoMobile($hash) {	
+		global $isMobile;
+		$isMobile = TRUE;
+		
+		iniciaTransacao($hash);
 	}
         
     function trocaSenha($params) {    

@@ -16,12 +16,15 @@
 	require_once 'usuario.php';
 	require_once 'semana.php';
 	require_once 'designacao.php';
+	require_once 'mobile.php';
 	
 	\Slim\Slim::registerAutoloader();
 	
 	$app = new \Slim\Slim();
 	
 	$version = 400;
+	$mobileVersion = 100;
+	
 	$msgVersion = 'Acesse: http://escolaministerio.jwdbcorp.dx.am/download.php e clique no link Atualização'
 				.'\nPrincipais alterações da versão:\n'
 				.'- Aviso de sincronismo somente quando existirem alterações;\n'
@@ -41,6 +44,15 @@
 		global $msgVersion;
 		
 		iniciaTransacao($app->request()->params('hash'));
+		echo '{"response" : "OK"}';
+	});
+	
+	$app->post('/mobile/logon', function() {
+		global $app;
+		global $version;
+		global $msgVersion;
+				
+		iniciaTransacaoMobile($app->request()->params('hash'));
 		echo '{"response" : "OK"}';
 	});
 	
