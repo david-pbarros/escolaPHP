@@ -14,7 +14,9 @@
 				$response = $response .'{';
 
 				foreach($result as $key=>$val) {
-					$response = $response .$key .' : "' .urlencode($val) .'", ';
+					if (!is_numeric ( $key )) {			
+						$response = $response .$key .' : "' .urlencode($val) .'", ';
+					}
 				}
 				
 				$response = rtrim($response, ", ") .'},';
@@ -33,7 +35,7 @@
 		$nome = "";
 		
 		try {
-			$results = queryListResult('SELECT id, senha, nome, bloqueado FROM usuario WHERE dataexclusao IS NULL)', null);
+			$results = queryListResult('SELECT id, senha, nome, bloqueado FROM usuario', null);
 			
 			$response = '{"response" : "OK", "itens" : [';
 			
@@ -65,12 +67,13 @@
 	function mobile_designacao_list($params) {
 		iniciaTransacaoMobile($params['hash']);
 		
+				
 		try {
-			$results = queryListResult('SELECT id, data, fonte, numero, sala, status, a.nome AS ajudante, es.nome AS estudante, e.nrestudo FROM designacao d '
+			$results = queryListResult('SELECT d.id, data, fonte, numero, sala, status, d.dtultimaatualiza, d.tempo, a.nome AS ajudante, es.nome AS estudante, e.estudo_id AS nrestudo FROM designacao d '
 										.'INNER JOIN estudante es ON es.id = d.estudante_id '
 										.'LEFT JOIN ajudante a ON a.id = d.ajudante_id '
-										.'LEFT JOIN designacao_estudo e ON e.designacao_id = d.id '
-										.'WHERE dataexclusao IS NULL AND data > :data', array("data"=>getFormatedDateTime($params['data_ultima'])));
+										.'LEFT JOIN designacao_estudo e ON e.designacao_id = d.id ' 
+										.'WHERE d.dataexclusao IS NULL  AND data >= :data', array("data"=>getFormatedDate($params['data_ultima'])));
 			
 			$response = '{"response" : "OK", "itens" : [';
 			
@@ -87,10 +90,15 @@
 							} else {
 								$val = '""';
 							}
-						} else if (($key == 'ajudante' || $key == 'estudante') && ($val == '' || $val == NULL || $val == 'null')) {
-							$val = '""';
-                                                        
-						} else if ($key == 'fonte') {
+						} else if ($key == 'dtultimaatualiza') {
+							if ($val != NULL) {
+								$val = strtotime($val);
+								$val   = '"' .date('d/m/Y H:i:s',$val) .'"';
+							
+							} else {
+								$val = '""';
+							}
+						} else {
 								if ($val == '' || $val == NULL || $val == 'null') {
 										$val = '""';
 								
@@ -113,5 +121,18 @@
 		}
 	}
 	
-	
+	function atualiza_designacao($params) {
+		iniciaTransacaoMobile($params['hash']);
+		
+		$queryParam = array("id"=>$params['id'], "dtultimaatualiza"=>date('Y-m-d H:i:s'), "status"=>$params['status'], "tempo"=>$params['tempo']);
+		
+		try {
+			createQuery('UPDATE designacao SET  dtultimaatualiza = :dtultimaatualiza, status = :status, tempo = :tempo WHERE id = :id', $queryParam);
+			
+			echo '{"response":"OK"}';
+			
+		} catch(Exception $e) {
+			echo '{"response" : "ERRO", "mensagem" :' .$e->getMessage() .'}';
+		}
+	}
 ?>

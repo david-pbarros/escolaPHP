@@ -314,6 +314,11 @@
 		mobile_designacao_list($app->request()->params());
 	});
 	
+	$app->post('/mobile/designacao', function() {
+		global $app;
+		atualiza_designacao($app->request()->params());
+	});
+	
 	$app->get('/mobile/usuarios', function() {
 		global $app;
 		usuario($app->request()->params());
