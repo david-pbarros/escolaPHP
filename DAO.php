@@ -5,20 +5,28 @@
 		global $dbh;
 		global $app;
 		
-		try {	
-				if ($dbName == '11111') {
-					$dbh = new PDO('mysql:host=fdb3.awardspace.net;dbname=1916634_'.$dbName .';charset=utf8', '1916634_'.$dbName, 'escola'.$dbName, array(PDO::ATTR_PERSISTENT=>true,PDO::MYSQL_ATTR_INIT_COMMAND =>"SET NAMES utf8"));
-			   
-			   } else {
-					//remote
-					//$dbh = new PDO('mysql:host=fdb3.awardspace.net;dbname=1912816_'.$dbName .';charset=utf8', '1912816_'.$dbName, 'escola'.$dbName, array(PDO::ATTR_PERSISTENT=>true));
-				
+		$cong = $dbName; 
+		
+                try {	
+                	$cong = $dbName;
+                        
+                    if ($cong == '48496') {
+						$dbName = '1912816_'.$cong;
+					
+					} elseif ($cong == '11111') {
+						$dbName = '1916634_' .$cong;
+					
+					} elseif ($cong == '8771') {
+						$dbName = '2050683_' .$cong;
+					}
+					
+					$dbh = new PDO('mysql:host=fdb3.awardspace.net;dbname='.$dbName .';charset=utf8', $dbName, 'escola'.$cong, array(PDO::ATTR_PERSISTENT=>true));
+					   
 					//localHost
-					$dbh = new PDO('mysql:host=localhost;dbname=escola_48496', 'root');
-				}    
-		} catch (PDOException $e) {
-				$app->halt(400, 'Erro ao conectar ao banco de dados' .' Mensagem: ' .$e->getMessage());
-		}
+					//$dbh = new PDO('mysql:host=localhost;dbname=escola_48496', 'root');
+                } catch (PDOException $e) {
+                        $app->halt(400, 'Erro ao conectar ao banco de dados' .' Mensagem: ' .$e->getMessage());
+                }
 	}
 	
 	function createQuery($query, $parameters) {
