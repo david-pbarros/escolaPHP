@@ -22,9 +22,10 @@
 					$data = getFormatedDate($params['ultimadesignacao']);
 				}
 			
-				$queryParam = array("id"=>obtemSequence('ajudante'), "dtultimaatualiza"=>date('Y-m-d H:i:s'), "genero"=>$params['genero'], "nome"=>urldecode($params['nome']), "ultimadesignacao"=>$data);
+				$queryParam = array("id"=>obtemSequence('ajudante'), "dtultimaatualiza"=>date('Y-m-d H:i:s'), "genero"=>$params['genero'], "nome"=>urldecode($params['nome']),
+					"ultimadesignacao"=>$data, "exclusaologica"=>$params['removidoLogico']);
 			
-				createQuery('INSERT INTO ajudante(id, dtultimaatualiza, genero, nome, ultimadesignacao) VALUES (:id, :dtultimaatualiza, :genero, :nome, :ultimadesignacao)', $queryParam);
+				createQuery('INSERT INTO ajudante(id, dtultimaatualiza, genero, nome, ultimadesignacao, exclusaologica) VALUES (:id, :dtultimaatualiza, :genero, :nome, :ultimadesignacao, :exclusaologica)', $queryParam);
 				
 				$result = obtemIdAjudante($params);
 				
@@ -44,10 +45,12 @@
 			$data = getFormatedDate($params['ultimadesignacao']);
 		}
 				
-		$queryParam = array("id"=>$params['id_online'], "nome"=>urldecode($params['nome']), "ultimadesignacao"=>$data, "dtultimaatualiza"=>date('Y-m-d H:i:s'));
+		$queryParam = array("id"=>$params['id_online'], "nome"=>urldecode($params['nome']), "ultimadesignacao"=>$data,
+			"dtultimaatualiza"=>date('Y-m-d H:i:s'), "exclusaologica"=>$params['removidoLogico']);
 		
 		try {
-			createQuery('UPDATE ajudante SET nome = :nome, ultimadesignacao = :ultimadesignacao, dtultimaatualiza = :dtultimaatualiza WHERE id = :id', $queryParam);
+			createQuery('UPDATE ajudante SET nome = :nome, ultimadesignacao = :ultimadesignacao, dtultimaatualiza = :dtultimaatualiza,'
+				.' exclusaologica = :exclusaologica WHERE id = :id', $queryParam);
 		
 			echo '{"response":"OK"}';
 			
