@@ -23,9 +23,10 @@
 				}
 				
 				$queryParam = array("id"=>obtemSequence('estudante'), "dtultimaatualiza"=>date('Y-m-d H:i:s'), "genero"=>$params['genero'], "nome"=>urldecode($params['nome']), "ultimadesignacao"=>$data,
-									"desabilitado"=>$params['desabilitado'], "naoajudante"=>$params['naoAjudante'], "observacao"=>$params['observacao'], "salaultimadesignacao"=>$params['salaUltima']);
+									"desabilitado"=>$params['desabilitado'], "naoajudante"=>$params['naoAjudante'], "observacao"=>$params['observacao'], "salaultimadesignacao"=>$params['salaUltima'],
+									"exclusaologica"=>$params['excluidoLogico']);
 			
-				createQuery('INSERT INTO estudante(id, desabilitado, dtultimaatualiza, genero, naoajudante, nome, observacao, salaultimadesignacao, ultimadesignacao) VALUES (:id, :desabilitado, :dtultimaatualiza, :genero, :naoajudante, :nome, :observacao, :salaultimadesignacao, :ultimadesignacao)', $queryParam);
+				createQuery('INSERT INTO estudante(id, desabilitado, dtultimaatualiza, genero, naoajudante, nome, observacao, salaultimadesignacao, ultimadesignacao, exclusaologica) VALUES (:id, :desabilitado, :dtultimaatualiza, :genero, :naoajudante, :nome, :observacao, :salaultimadesignacao, :ultimadesignacao, :exclusaologica)', $queryParam);
 				
 				$result = obtemIdEstudante($params);
 				
@@ -46,11 +47,12 @@
 		}
 				
 		$queryParam = array("id"=>$params['id_online'], "nome"=>urldecode($params['nome']), "ultimadesignacao"=>$data, "desabilitado"=>$params['desabilitado'],
-							"naoajudante"=>$params['naoAjudante'], "observacao"=>$params['observacao'], "salaultimadesignacao"=>$params['salaUltima'], "dtultimaatualiza"=>date('Y-m-d H:i:s'));
+							"naoajudante"=>$params['naoAjudante'], "observacao"=>$params['observacao'], "salaultimadesignacao"=>$params['salaUltima'], 
+							"dtultimaatualiza"=>date('Y-m-d H:i:s'), "exclusaologica"=>$params['excluidoLogico']);
 		
 		try {
-			createQuery('UPDATE ajudante SET nome = :nome, ultimadesignacao = :ultimadesignacao, desabilitado = :desabilitado, naoajudante = :naoajudante,'
-							.' observacao = :observacao, salaultimadesignacao = :salaultimadesignacao, dtultimaatualiza = :dtultimaatualiza WHERE id = :id', $queryParam);
+			createQuery('UPDATE estudante SET nome = :nome, ultimadesignacao = :ultimadesignacao, desabilitado = :desabilitado, naoajudante = :naoajudante,'
+							.' observacao = :observacao, salaultimadesignacao = :salaultimadesignacao, exclusaologica = :exclusaologica, dtultimaatualiza = :dtultimaatualiza WHERE id = :id', $queryParam);
 			
 			echo '{"response":"OK"}';
 			
