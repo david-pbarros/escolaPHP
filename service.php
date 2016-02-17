@@ -22,17 +22,21 @@
 	
 	$app = new \Slim\Slim();
 	
-	$version = 400;
+	$version = 410;
 	$mobileVersion = 100;
 	
 	$msgVersion = 'Acesse: http://escolaministerio.jwdbcorp.dx.am/download.php e clique no link Atualização'
 				.'\nPrincipais alterações da versão:\n'
-				.'- Aviso de sincronismo somente quando existirem alterações;\n'
-				.'- Preparação de telas para Melhore seu ministério;\n'
-				.'- Preparação das impressões para Melhore seu ministério;\n'
-				.'- Possibilidade de edição no nome dos estudantes;\n'
-				.'- Ajuste de bug na edição de ajudantes e estudantes;\n'
-				.'- Sincronismo melhorado.';
+				.'- Ajuste na deleção de estudantes;\n'
+				.'- Estudantes apresentar em ordem alfabética;Ajuste na deleção de ajudantes;\n'
+				.'- Ajudantes apresentar em ordem alfabética;\n'
+				.'- Nova tela para configurações do sistema;\n'
+				.'- Possível apagar base de dados local pelas configurações;\n'
+				.'- Possível apagar os logs pelas configurações;\n'
+				.'- Possível modificar local de armazenamento de logs e banco de dados;\n'
+				.'- Ajustes de inicialização offLine;\n'
+				.'- Não permite mesma pessoa no cadastro de ajudantes e de estudantes;\n'
+				.'- Ajustes no sincronismo das designações.';
 	
 	$app->get('/', function () {
 		echo "Escola WebService Host.";
