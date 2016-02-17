@@ -19,9 +19,10 @@
                                 $sequence = obtemSequence('semanadesignacao');
                                 
 				$queryParam = array("id"=>$sequence, "dtultimaatualiza"=>date('Y-m-d H:i:s'), "assebleia"=>$params['assebleia'], "data"=>getFormatedDate($params['data']),
-										"recapitulacao"=>$params['recapitulacao'], "semreuniao"=>$params['semReuniao'], "visita"=>$params['visita'], "mes_id"=>$params['mes']);
+										"recapitulacao"=>$params['recapitulacao'], "semreuniao"=>$params['semReuniao'], "visita"=>$params['visita'], "videos"=>$params['videos'], 
+										"mes_id"=>$params['mes']);
 				
-				createQuery('INSERT INTO semanadesignacao(id, assebleia, data, dtultimaatualiza, recapitulacao, semreuniao, visita, mes_id) VALUES (:id, :assebleia, :data, :dtultimaatualiza, :recapitulacao, :semreuniao, :visita, :mes_id)', $queryParam);
+				createQuery('INSERT INTO semanadesignacao(id, assebleia, data, dtultimaatualiza, recapitulacao, semreuniao, visita, videos, mes_id) VALUES (:id, :assebleia, :data, :dtultimaatualiza, :recapitulacao, :semreuniao, :visita, :videos, :mes_id)', $queryParam);
 				
 				echo '{"response" : "novo", "id_online" : ' .$sequence .'}';
 			}
@@ -34,10 +35,10 @@
 		iniciaTransacao($params['hash']);
 		
 		$queryParam = array("id"=>$params['id'], "dtultimaatualiza"=>date('Y-m-d H:i:s'), "assebleia"=>$params['assebleia'], "recapitulacao"=>$params['recapitulacao'],
-								"semreuniao"=>$params['semReuniao'], "visita"=>$params['visita']);
+								"semreuniao"=>$params['semReuniao'], "videos"=>$params['videos'], "visita"=>$params['visita']);
 		
 		try {
-			createQuery('UPDATE semanadesignacao SET assebleia = :assebleia, dtultimaatualiza = :dtultimaatualiza, recapitulacao = :recapitulacao, semreuniao = :semreuniao, visita = :visita WHERE id = :id', $queryParam);
+			createQuery('UPDATE semanadesignacao SET assebleia = :assebleia, dtultimaatualiza = :dtultimaatualiza, recapitulacao = :recapitulacao, semreuniao = :semreuniao, visita = :visita, videos = :videos WHERE id = :id', $queryParam);
 			echo '{"response":"OK"}';
 			
 		} catch(Exception $e) {
@@ -49,7 +50,7 @@
 		iniciaTransacao($params['hash']);
 		
 		try {
-			$results = queryListResult('SELECT id, assebleia, data, recapitulacao, semreuniao, visita, mes_id FROM semanadesignacao WHERE dtultimaatualiza > :data', array("data"=>getFormatedDateTime($params['data_ultima'])));
+			$results = queryListResult('SELECT id, assebleia, data, recapitulacao, semreuniao, visita, videos, mes_id FROM semanadesignacao WHERE dtultimaatualiza > :data', array("data"=>getFormatedDateTime($params['data_ultima'])));
 			
 			$response = '{"response" : "OK", "itens" : [';
 			
