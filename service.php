@@ -22,7 +22,7 @@
 	
 	$app = new \Slim\Slim();
 	
-	$version = 410;
+	$version = 420;
 	$mobileVersion = 100;
 	
 	$msgVersion = 'Acesse: http://escolaministerio.jwdbcorp.dx.am/download.php e clique no link Atualização'
@@ -30,6 +30,8 @@
 				.'- Ajuste na deleção de estudantes;\n'
 				.'- Estudantes apresentar em ordem alfabética;Ajuste na deleção de ajudantes;\n'
 				.'- Ajudantes apresentar em ordem alfabética;\n'
+				.'- Pop-up para escolha de estudo para designação;\n'
+				.'- Pop-up de observação com exibição do tempo decorrido na designação;\n'
 				.'- Nova tela para configurações do sistema;\n'
 				.'- Possível apagar base de dados local pelas configurações;\n'
 				.'- Possível apagar os logs pelas configurações;\n'

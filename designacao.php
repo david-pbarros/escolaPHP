@@ -24,13 +24,15 @@
 			} else {
 				$queryParam = array("id"=>obtemSequence('designacao'), "dtultimaatualiza"=>date('Y-m-d H:i:s'), "data"=>getFormatedDate($params['data']), "fonte"=>urldecode($params['fonte']),
 									"numero"=>$params['numero'], "obsfolha"=>urldecode($params['ObsFolha']), "observacao"=>urldecode($params['observacao']), "sala"=>$params['sala'], "tema"=>urldecode($params['tema']),
-									"ajudante_id"=>$params['ajudante'], "semana_id"=>$params['semana'], "estudante_id"=>$params['estudante'], "status"=>$params['status']);
+									"ajudante_id"=>$params['ajudante'], "semana_id"=>$params['semana'], "estudante_id"=>$params['estudante'], "status"=>$params['status'], "tempo"=>$params['tempo']);
 			
-				createQuery('INSERT INTO designacao(id, data, dtultimaatualiza, fonte, numero, obsfolha, observacao, sala, status, tema, ajudante_id, semana_id, estudante_id) VALUES (:id, :data, :dtultimaatualiza, :fonte, :numero, :obsfolha, :observacao, :sala, :status, :tema, :ajudante_id, :semana_id, :estudante_id)', $queryParam);
+				createQuery('INSERT INTO designacao(id, data, dtultimaatualiza, fonte, numero, obsfolha, observacao, sala, status, tema, tempo, ajudante_id, semana_id, estudante_id) VALUES (:id, :data, :dtultimaatualiza, :fonte, :numero, :obsfolha, :observacao, :sala, :status, :tema, :tempo, :ajudante_id, :semana_id, :estudante_id)', $queryParam);
 				
 				$id = obtemIdDesignacao($params)->id;
 				
-				insereEstudoDesignacao($params, $id);
+				if ($params['estudo'] != null) {
+					insereEstudoDesignacao($params, $id);
+				}
 				
 				echo '{"response" : "novo", "id_online" : ' .$id .'}';
 			}
@@ -44,19 +46,23 @@
 		
                 
 		$queryParam = array("id"=>$params['id'], "dtultimaatualiza"=>date('Y-m-d H:i:s'), "fonte"=>urldecode($params['fonte']), "obsfolha"=>urldecode($params['ObsFolha']), "observacao"=>urldecode($params['observacao']),
-							"tema"=>urldecode($params['tema']), "ajudante_id"=>$params['ajudante'], "estudante_id"=>$params['estudante'], "status"=>$params['status']);
+							"tema"=>urldecode($params['tema']), "ajudante_id"=>$params['ajudante'], "estudante_id"=>$params['estudante'], "status"=>$params['status'], "tempo"=>$params['tempo']);
 		
 		try {
 			createQuery('UPDATE designacao SET  dtultimaatualiza = :dtultimaatualiza, fonte = :fonte, obsfolha = :obsfolha, observacao = :observacao, tema = :tema, ajudante_id = :ajudante_id, '
-						.'estudante_id = :estudante_id, status = :status WHERE id = :id', $queryParam);
+						.'estudante_id = :estudante_id, status = :status, tempo = :tempo WHERE id = :id', $queryParam);
 			
 			$result = querySingleResult('SELECT 1 FROM designacao_estudo WHERE designacao_id = :designacao', array("designacao"=>$params['id']));
 			
-			if(!empty($result)) {
-				createQuery('UPDATE designacao_estudo SET estudo_id = :estudo WHERE designacao_id = :id', array("estudo"=>$params['estudo'], "id"=>$params['id']));
+			$nrEstudo = $params['estudo'];
 			
-			} else {
-				insereEstudoDesignacao($params, $params['id']);
+			if ($nrEstudo != null) {
+				if(!empty($result)) {
+					createQuery('UPDATE designacao_estudo SET estudo_id = :estudo WHERE designacao_id = :id', array("estudo"=>$nrEstudo, "id"=>$params['id']));
+				
+				} else {
+					insereEstudoDesignacao($params, $params['id']);
+				}
 			}
 			
 			echo '{"response":"OK"}';
@@ -70,7 +76,7 @@
 		iniciaTransacao($params['hash']);
 		
 		try {
-			$results = queryListResult('SELECT id, data, fonte, numero, obsfolha, observacao, sala, status, tema, ajudante_id, semana_id, estudante_id, e.estudo_id FROM designacao d '
+			$results = queryListResult('SELECT id, data, fonte, numero, obsfolha, observacao, sala, status, tema, tempo, ajudante_id, semana_id, estudante_id, e.estudo_id FROM designacao d '
 										.'LEFT JOIN designacao_estudo e ON e.designacao_id = d.id WHERE dataexclusao IS NULL AND dtultimaatualiza > :data', array("data"=>getFormatedDateTime($params['data_ultima'])));
 			
 			$response = '{"response" : "OK", "itens" : [';
@@ -98,6 +104,12 @@
 								} else {
 										$val = '"' .urlencode($val) .'"';
 								}
+						} else if ($key == 'tempo') {
+							if ($val == '' || $val == NULL || $val == 'null') {
+									$val = '""';
+							} else {
+								$val = '"' .$val .'"';
+							}
 						}
 						
 						$response = $response .'"' .$key .'" : ' .$val .', ';
