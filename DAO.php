@@ -9,18 +9,18 @@
 		
                 try {	
                 	$cong = $dbName;
-                        
-                    if ($cong == '48496') {
+                    $host;
+                    
+                    if ($cong == '48496' || $cong == '8771') {
 						$dbName = '1912816_'.$cong;
+		                $host = 'pdb19.awardspace.net';
 					
 					} elseif ($cong == '11111') {
 						$dbName = '1916634_' .$cong;
-					
-					} elseif ($cong == '8771') {
-						$dbName = '2050683_' .$cong;
+		                $host = 'fdb3.awardspace.net;dbname';
 					}
 					
-					$dbh = new PDO('mysql:host=fdb3.awardspace.net;dbname='.$dbName .';charset=utf8', $dbName, 'escola'.$cong, array(PDO::ATTR_PERSISTENT=>true));
+					$dbh = new PDO('mysql:host=' .$host .';dbname='.$dbName .';charset=utf8', $dbName, 'escola'.$cong, array(PDO::ATTR_PERSISTENT=>true));
 					   
 					//localHost
 					//$dbh = new PDO('mysql:host=localhost;dbname=escola_48496', 'root');
