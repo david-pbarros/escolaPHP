@@ -22,7 +22,7 @@
 	
 	$app = new \Slim\Slim();
 	
-	$version = 420;
+	$version = 421;
 	$mobileVersion = 100;
 	
 	$msgVersion = 'Acesse: http://escolaministerio.jwdbcorp.dx.am/download.php e clique no link Atualização'

@@ -91,7 +91,14 @@
 						
 						} else if ($key == 'nome' ) {
 							$val = urlencode($val);
-						}
+						
+                                                } else {
+                                                   if ($val == NULL || $val == 'null') {
+                                                           $val = '""';
+                                                   } else {
+                                                           $val = '"' .$val .'"';
+                                                   }
+                                                }
 						
 						$response = $response .'"' .$key .'" : ' .$val .', ';
 					}
